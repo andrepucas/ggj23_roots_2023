@@ -28,6 +28,40 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Menu",
+            "id": "314d84f2-d012-438e-8da9-eba840b7f2bf",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "126d69cd-6335-4cdc-bf75-f7ef613f0abb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c1d34040-98ec-49fb-bd39-8a23b863ff0a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Cutscenes",
+            "id": "49a9a8e9-7b49-4d5b-ae16-457fcd7d66c0",
+            "actions": [],
+            "bindings": []
         }
     ],
     "controlSchemes": []
