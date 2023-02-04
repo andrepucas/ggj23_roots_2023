@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -23,8 +24,6 @@ public class Controller : MonoBehaviour
 
     private void Awake()
     {
-
-
         _input = GetComponent<PlayerInput>();
         _actionZigZag = _input.actions["ZigZag"];
         _actionFlapper = _input.actions["Flapper"];
@@ -48,9 +47,9 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
-        if (!_rootFlapper) FindObjectOfType<RootFlapper>();
+        //if (!_rootFlapper) FindObjectOfType<RootFlapper>();
         _rootZigZag.enabled = true;
-        _rootFlapper.enabled = true;
+        //_rootFlapper.enabled = true;
         StartCoroutine(MoveRoots());
     }
 
@@ -61,8 +60,16 @@ public class Controller : MonoBehaviour
             case GameStates.MENU:
                 _input.SwitchCurrentActionMap("Menu");
                 Debug.Log("Menu");
+
+                InputSystem.onAnyButtonPress.
+                    CallOnce(ctrl => ChangeGameState(GameStates.LOAD_LEVEL));
+
                 break;
 
+            case GameStates.LOAD_LEVEL:
+                Debug.Log("Load level");
+                break;
+            
             case GameStates.CUTSCENE:
                 _input.SwitchCurrentActionMap("Cutscene");
                 Debug.Log("Cutscene");
@@ -71,6 +78,9 @@ public class Controller : MonoBehaviour
             case GameStates.GAMEPLAY:
                 _input.SwitchCurrentActionMap("Gameplay");
                 Debug.Log("Gameplay");
+
+                _input.actions["ZigZag"].performed += _ => _rootZigZag.Move();
+
                 break;
         }
     }

@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e708a87f157fbfc49bda94a9144de5de, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
-  _startGameState: 2
+  _startGameState: 0
+  _levels:
+  - _levelPrefab: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+    _introTime: 0
+    _replayPos: {x: 0, y: 0, z: 0}
