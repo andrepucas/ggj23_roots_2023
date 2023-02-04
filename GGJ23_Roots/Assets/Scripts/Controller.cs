@@ -10,21 +10,28 @@ public class Controller : MonoBehaviour
     [Header("ROOTS")]
     [SerializeField] private Transform _rootsParent;
     [SerializeField] private RootZigZag _rootZigZag;
+    [SerializeField] private RootFlapper _rootFlapper;
     [SerializeField] private float _rootsStartPosition;
     [SerializeField] private float _rootsPosition;
 
     private PlayerInput _input;
     private InputAction _actionZigZag;
+    private InputAction _actionFlapper;
 
     private float _levelSpeed = 0.008f;
     private float _currentSpeed;
 
     private void Awake()
     {
+
+
         _input = GetComponent<PlayerInput>();
         _actionZigZag = _input.actions["ZigZag"];
+        _actionFlapper = _input.actions["Flapper"];
 
         _actionZigZag.performed += _ => _rootZigZag.Move();
+        _actionFlapper.started += _ => _rootFlapper.Move();
+        _actionFlapper.canceled -= _ => _rootFlapper.Move();
 
         ChangeGameState(_levelData.StartGameState);
     }
@@ -41,7 +48,9 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
+        if (!_rootFlapper) FindObjectOfType<RootFlapper>();
         _rootZigZag.enabled = true;
+        _rootFlapper.enabled = true;
         StartCoroutine(MoveRoots());
     }
 

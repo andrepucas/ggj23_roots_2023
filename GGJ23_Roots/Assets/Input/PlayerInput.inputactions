@@ -13,6 +13,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Flapper",
+                    "type": "Button",
+                    "id": "cc93ffb6-6601-4e3d-bcd7-a2a59e2566a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cos",
+                    "type": "Button",
+                    "id": "bbd4b872-1e40-4050-a86a-09968047d0c9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BigBoy",
+                    "type": "Button",
+                    "id": "c73e81c2-7b11-40c4-be98-a77d42907dd6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -24,6 +51,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "ZigZag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6b961b5-1721-4e54-b2a1-0e3d1b562159",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flapper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00d22788-ee31-4db2-a06e-dbf97445715d",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cos",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf26c9fb-f39d-4e7c-b062-62e4c01de175",
+                    "path": "<Keyboard>/numpad5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BigBoy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
