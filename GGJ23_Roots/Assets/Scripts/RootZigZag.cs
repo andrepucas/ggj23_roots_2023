@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RootZigZag : MonoBehaviour
+public class RootZigZag : AbstractRoot
 {
     [Header("MOVEMENT")]
     [SerializeField] private Rigidbody2D _rb;
@@ -10,6 +10,12 @@ public class RootZigZag : MonoBehaviour
     private float _direction = 1;
     private Vector2 _velocity;
 
+    public void Move()
+    {
+        _isControllable = true;
+        _direction =-_direction;
+    }
+
     private void FixedUpdate()
     {
         if (!_isControllable) return;
@@ -18,11 +24,15 @@ public class RootZigZag : MonoBehaviour
         _rb.velocity += _velocity;
     }
 
-    public void Move()
+    protected override void OnTriggerEnter2D(Collider2D col)
     {
-        _isControllable = true;
-        _direction =-_direction;
-
-        Debug.Log(_direction);
+        if (col.gameObject.tag == "Obstacle")
+        {
+            base.OnDead();
+            _isControllable = false;
+            _rb.velocity = Vector2.zero;
+            transform.parent = null;
+            Destroy(this);
+        }
     }
 }
