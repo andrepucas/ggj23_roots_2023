@@ -630,7 +630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d8bddf3a5304274785e43a964de2e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _anim: {fileID: 0}
   _levelData: {fileID: 11400000, guid: 75ed7a7f097306d4b9a779785832e292, type: 2}
+  _levelsFolder: {fileID: 0}
   _rootsParent: {fileID: 711216555}
   _rootZigZag: {fileID: 1891806910}
   _rootFlapper: {fileID: 0}
@@ -11351,7 +11353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678506477}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.210001, y: -3.3500342, z: 0}
+  m_LocalPosition: {x: 13.38, y: -5.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12515,7 +12517,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.54
+      value: 0.4
       mode: 0
       spread: 0
       speed:

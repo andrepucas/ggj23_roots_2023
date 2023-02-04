@@ -39,6 +39,10 @@ public class Controller : MonoBehaviour
 
         GameObject levelRef;
         _levels = new List<GameObject>();
+
+        foreach (Transform child in _levelsFolder)
+            Destroy(child.gameObject);
+
         foreach (Level level in _levelData.Levels)
         {
             levelRef = Instantiate(level.Prefab);
