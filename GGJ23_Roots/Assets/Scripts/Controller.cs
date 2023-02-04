@@ -7,6 +7,8 @@ public class Controller : MonoBehaviour
     [Header("ROOTS")]
     [SerializeField] private Transform _rootsParent;
     [SerializeField] private RootZigZag _rootZigZag;
+    [SerializeField] private float _rootsStartPosition;
+    [SerializeField] private float _rootsPosition;
 
     private PlayerInput _input;
     private InputAction _actionZigZag;
@@ -47,14 +49,18 @@ public class Controller : MonoBehaviour
     private IEnumerator MoveRoots()
     {
         _currentSpeed = 0;
+        Vector3 _rootsPos = _rootsParent.transform.position;
         float elapsedTime = 0;
+        
         
         while (true)
         {
             if (_currentSpeed < _levelSpeed)
             {
-                _currentSpeed = Mathf.Lerp(0, _levelSpeed, elapsedTime / 1);
-                Debug.Log(1);
+                _currentSpeed = Mathf.Lerp(0, _levelSpeed, elapsedTime / 3);
+                _rootsPos.x = Mathf.Lerp(_rootsStartPosition, _rootsPosition, elapsedTime / 3);
+                _rootsPos.z = 0;
+                _rootsParent.transform.localPosition = _rootsPos;
             }
 
             transform.position += Vector3.right * _currentSpeed;
