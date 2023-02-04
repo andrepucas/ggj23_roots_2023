@@ -27,11 +27,11 @@ public class Controller : MonoBehaviour
 
         _input = GetComponent<PlayerInput>();
         _actionZigZag = _input.actions["ZigZag"];
-        _actionFlapper = _input.actions["Flapper"];
+        //_actionFlapper = _input.actions["Flapper"];
 
         _actionZigZag.performed += _ => _rootZigZag.Move();
-        _actionFlapper.started += _ => _rootFlapper.Move();
-        _actionFlapper.canceled -= _ => _rootFlapper.Move();
+        //_actionFlapper.started += _ => _rootFlapper.Move();
+        //_actionFlapper.canceled -= _ => _rootFlapper.Move();
 
         ChangeGameState(_levelData.StartGameState);
     }
@@ -50,7 +50,7 @@ public class Controller : MonoBehaviour
     {
         if (!_rootFlapper) FindObjectOfType<RootFlapper>();
         _rootZigZag.enabled = true;
-        _rootFlapper.enabled = true;
+        //_rootFlapper.enabled = true;
         StartCoroutine(MoveRoots());
     }
 
