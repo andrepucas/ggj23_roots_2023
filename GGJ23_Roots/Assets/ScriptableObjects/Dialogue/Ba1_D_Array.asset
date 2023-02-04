@@ -13,4 +13,15 @@ MonoBehaviour:
   m_Name: Ba1_D_Array
   m_EditorClassIdentifier: 
   DialogueArray:
-  - {fileID: 11400000, guid: 90397974df21b854e85f5f8b35c96ab4, type: 2}
+  - dialogueAudio: {fileID: 0}
+    dialogueText: SEGSSF
+  - dialogueAudio: {fileID: 0}
+    dialogueText: 
+  - dialogueAudio: {fileID: 0}
+    dialogueText: 
+  - dialogueAudio: {fileID: 0}
+    dialogueText: 
+  - dialogueAudio: {fileID: 0}
+    dialogueText: 
+  - dialogueAudio: {fileID: 0}
+    dialogueText: 
