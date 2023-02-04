@@ -90,14 +90,8 @@
             ]
         },
         {
-            "name": "Menu",
+            "name": "None",
             "id": "314d84f2-d012-438e-8da9-eba840b7f2bf",
-            "actions": [],
-            "bindings": []
-        },
-        {
-            "name": "Cutscenes",
-            "id": "49a9a8e9-7b49-4d5b-ae16-457fcd7d66c0",
             "actions": [],
             "bindings": []
         }

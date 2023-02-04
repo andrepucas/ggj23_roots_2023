@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startGameState: 0
   _levels:
-  - _levelPrefab: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+  - _prefab: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+    _speed: {x: 3, y: 0, z: 0}
     _introTime: 12
     _replayPos: {x: 0, y: 0, z: 0}

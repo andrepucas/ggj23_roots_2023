@@ -8,18 +8,19 @@ public class LevelDataSO : ScriptableObject
     [SerializeField] private Level[] _levels;
 
     public GameStates StartGameState => _startGameState;
-    public IReadOnlyCollection<Level> Levels => _levels;
-    public int CurrentLevelIndex {get; set;}
+    public IReadOnlyList<Level> Levels => _levels;
 }
 
 [System.Serializable]
 public struct Level
 {
-    [SerializeField] private GameObject _levelPrefab;
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Vector3 _speed;
     [SerializeField] private float _introTime;
     [SerializeField] private Vector3 _replayPos;
 
-    public GameObject LevelPrefab => _levelPrefab;
+    public GameObject Prefab => _prefab;
+    public Vector3 Speed => _speed;
     public float IntroTime => _introTime;
     public Vector3 ReplayPos => _replayPos;
 }

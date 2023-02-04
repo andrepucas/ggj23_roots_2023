@@ -1,12 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    [Header("LEVEL DATA")]
+    [Header("LEVELS")]
+    [SerializeField] private Animator _anim;
     [SerializeField] private LevelDataSO _levelData;
+    [SerializeField] private Transform _levelsFolder;
     
     [Header("ROOTS")]
     [SerializeField] private Transform _rootsParent;
@@ -16,21 +19,33 @@ public class Controller : MonoBehaviour
     [SerializeField] private float _rootsPosition;
 
     private PlayerInput _input;
-    private InputAction _actionZigZag;
     private InputAction _actionFlapper;
 
-    private float _levelSpeed = 0.008f;
-    private float _currentSpeed;
+    private List<GameObject> _levels;
+    private int _currentLevel;
 
     private void Awake()
     {
+        Cursor.visible = false;
+
         _input = GetComponent<PlayerInput>();
-        _actionZigZag = _input.actions["ZigZag"];
+        //_actionZigZag = _input.actions["ZigZag"];
         //_actionFlapper = _input.actions["Flapper"];
 
-        _actionZigZag.performed += _ => _rootZigZag.Move();
+        //_actionZigZag.performed += _ => _rootZigZag.Move();
+        
         //_actionFlapper.started += _ => _rootFlapper.Move();
         //_actionFlapper.canceled -= _ => _rootFlapper.Move();
+
+        GameObject levelRef;
+        _levels = new List<GameObject>();
+        foreach (Level level in _levelData.Levels)
+        {
+            levelRef = Instantiate(level.Prefab);
+            levelRef.SetActive(false);
+            levelRef.transform.parent = _levelsFolder;
+            _levels.Add(levelRef);
+        }
 
         ChangeGameState(_levelData.StartGameState);
     }
@@ -45,21 +60,25 @@ public class Controller : MonoBehaviour
         AbstractRoot.Dead -= GameOver;
     }
 
-    private void Start()
-    {
-        //if (!_rootFlapper) FindObjectOfType<RootFlapper>();
-        _rootZigZag.enabled = true;
-        //_rootFlapper.enabled = true;
-        StartCoroutine(MoveRoots());
-    }
+    // private void Start()
+    // {
+    //     //if (!_rootFlapper) FindObjectOfType<RootFlapper>();
+    //     _rootZigZag.enabled = true;
+    //     //_rootFlapper.enabled = true;
+    //     StartCoroutine(MoveRoots());
+    // }
 
     private void ChangeGameState(GameStates gameState)
     {
         switch (gameState)
         {
             case GameStates.MENU:
-                _input.SwitchCurrentActionMap("Menu");
+                _input.SwitchCurrentActionMap("None");
                 Debug.Log("Menu");
+
+                _currentLevel = 0;
+                _levels[0].SetActive(true);
+                _anim.SetBool("Play", false);
 
                 InputSystem.onAnyButtonPress.
                     CallOnce(ctrl => ChangeGameState(GameStates.LOAD_LEVEL));
@@ -67,12 +86,16 @@ public class Controller : MonoBehaviour
                 break;
 
             case GameStates.LOAD_LEVEL:
+                _input.SwitchCurrentActionMap("None");
                 Debug.Log("Load level");
-                break;
-            
-            case GameStates.CUTSCENE:
-                _input.SwitchCurrentActionMap("Cutscene");
-                Debug.Log("Cutscene");
+
+                _levelData.Levels[_currentLevel].Prefab.SetActive(true);
+
+                _anim.SetInteger("Level", _currentLevel);
+                _anim.SetBool("Play", true);
+
+                StartCoroutine(WaitForIntro());
+
                 break;
 
             case GameStates.GAMEPLAY:
@@ -80,53 +103,47 @@ public class Controller : MonoBehaviour
                 Debug.Log("Gameplay");
 
                 _input.actions["ZigZag"].performed += _ => _rootZigZag.Move();
+                StartCoroutine(MoveRoots());
 
                 break;
         }
     }
 
+    private IEnumerator WaitForIntro()
+    {
+        yield return new WaitForSeconds(_levelData.Levels[_currentLevel].IntroTime);
+        ChangeGameState(GameStates.GAMEPLAY);
+    }
+
     private void GameOver()
     {
         StopAllCoroutines();
-        StartCoroutine(StopCamera());
+        //StartCoroutine(StopCamera());
+        Debug.Log("Game Over");
     }
 
     private IEnumerator MoveRoots()
     {
-        _currentSpeed = 0;
-        Vector3 _rootsPos = _rootsParent.transform.position;
-        float elapsedTime = 0;
-
         while (true)
         {
-            if (_currentSpeed < _levelSpeed)
-            {
-                _currentSpeed = Mathf.Lerp(0, _levelSpeed, elapsedTime / 3);
-                _rootsPos.x = Mathf.Lerp(_rootsStartPosition, _rootsPosition, elapsedTime / 3);
-                _rootsPos.z = 0;
-                _rootsParent.transform.localPosition = _rootsPos;
-            }
-
-            transform.position += Vector3.right * _currentSpeed;
-
-            elapsedTime += Time.deltaTime;
+            transform.position += _levelData.Levels[_currentLevel].Speed * Time.deltaTime;
             yield return null;
         }
     }
 
-    private IEnumerator StopCamera()
-    {
-        float startSpeed = _currentSpeed;
-        float elapsedTime = 0;
+    // private IEnumerator StopCamera()
+    // {
+    //     Vector3 startSpeed = _levelData.Levels[_currentLevel].Speed;
+    //     float elapsedTime = 0;
 
-        while (_currentSpeed >= 0)
-        {
-            _currentSpeed = Mathf.Lerp(startSpeed, 0, elapsedTime / 1);
-            transform.position += Vector3.right * _currentSpeed;
-            _rootsParent.position += Vector3.right * (_levelSpeed - _currentSpeed);
+    //     while (startSpeed.magnitude >= 0)
+    //     {
+    //         _currentSpeed = Mathf.Lerp(startSpeed, 0, elapsedTime / 1);
+    //         transform.position += Vector3.right * _currentSpeed;
+    //         _rootsParent.position += Vector3.right * (_levelSpeed - _currentSpeed);
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
+    //         elapsedTime += Time.deltaTime;
+    //         yield return null;
+    //     }
+    // }
 }
