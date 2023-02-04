@@ -91,7 +91,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Blend: -0.35
+    - _Blend: 20.7
     - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -108,8 +108,8 @@ Material:
     - _GlossyReflections: 0
     - _Intensity2: 0.78
     - _Intensity3: 0.39
-    - _Intensity_of_light: 2.01
-    - _Intensity_of_shadow: 0.79
+    - _Intensity_of_light: 20.77
+    - _Intensity_of_shadow: 39.5
     - _Intesity: 0.98
     - _Metallic: 0
     - _Mode: 0
