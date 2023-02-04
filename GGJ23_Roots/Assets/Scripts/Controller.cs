@@ -16,9 +16,14 @@ public class Controller : MonoBehaviour
 
         _actionZigZag.performed += _ => _rootZigZag.Move();
     }
-    
+
     private void Start()
     {
         _rootZigZag.enabled = true;
+    }
+
+    private void Update()
+    {
+        transform.position += Vector3.right * 0.008f;
     }
 }

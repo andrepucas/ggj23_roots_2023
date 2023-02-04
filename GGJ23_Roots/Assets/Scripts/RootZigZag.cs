@@ -1,19 +1,21 @@
 using UnityEngine;
-using System.Collections;
 
 public class RootZigZag : MonoBehaviour
 {
+    [Header("MOVEMENT")]
+    [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float _speed;
-    
+
     private bool _isControllable;
-    private int _direction = 1;
+    private float _direction = 1;
+    private Vector2 _velocity;
 
     private void FixedUpdate()
     {
         if (!_isControllable) return;
 
-        
-        transform.position += Vector3.up * _direction * _speed;
+        _velocity.y = _direction * _speed;
+        _rb.velocity += _velocity;
     }
 
     public void Move()
