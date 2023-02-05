@@ -12,6 +12,8 @@ public class PlayableRoot : MonoBehaviour
     [SerializeField] private Color _mainColor, _particlesColor;
     
     [Header("COMPONENTS")]
+    [SerializeField] private AudioSource _audio;
+    [SerializeField] private AudioClip[] _clips;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private TrailRenderer _trail;
@@ -68,8 +70,11 @@ public class PlayableRoot : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Obstacle")
+        if (col.gameObject.tag == "Obstacle" || col.gameObject.tag == "Bounds")
         {
+            if (col.gameObject.tag == "Obstacle") _audio.PlayOneShot(_clips[0], 1);
+            else _audio.PlayOneShot(_clips[1], 1);
+            
             _isControllable = false;
             
             StartCoroutine(ReSpawning());
@@ -103,6 +108,8 @@ public class PlayableRoot : MonoBehaviour
             PlayableRoot other = col.gameObject.GetComponent<PlayableRoot>();
 
             if (other.GetInstanceID() < GetInstanceID()) return;
+
+            _audio.PlayOneShot(_clips[2], 1);
             
             Debug.Log("BOOP");
 
