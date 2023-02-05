@@ -25,6 +25,8 @@ MonoBehaviour:
     _roots:
     - _id: 0
       _spawn: {x: 0, y: 2, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: -2, z: 0}
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 2
     _replayPos: {x: 0, y: 0, z: 10}

@@ -20,7 +20,7 @@
                     "id": "cc93ffb6-6601-4e3d-bcd7-a2a59e2566a5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -46,7 +46,7 @@
                 {
                     "name": "",
                     "id": "f6b961b5-1721-4e54-b2a1-0e3d1b562159",
-                    "path": "<Keyboard>/g",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

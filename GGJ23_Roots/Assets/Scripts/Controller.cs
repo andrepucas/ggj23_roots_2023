@@ -21,7 +21,6 @@ public class Controller : MonoBehaviour
     [SerializeField] private float _rootsStartPosition;
     [SerializeField] private float _rootsPosition;
 
-
     private PlayerInput _input;
     private InputAction _actionFlapper;
 
@@ -35,6 +34,7 @@ public class Controller : MonoBehaviour
 
         _input = GetComponent<PlayerInput>();
         _input.actions["ZigZag"].performed += _ => _roots[0].Interact();
+        _input.actions["Flapper"].performed += _ => _roots[1].Interact();
         //_actionZigZag = _input.actions["ZigZag"];
         //_actionFlapper = _input.actions["Flapper"];
 
@@ -111,6 +111,7 @@ public class Controller : MonoBehaviour
                         _levelData.Levels[_currentLevel].Roots[i].SpawnPos;
 
                     _roots[rootIndex].gameObject.SetActive(true);
+                    _roots[rootIndex].Reset();
                 }
                 
                 _levels[_currentLevel].transform.position = position;
@@ -225,8 +226,6 @@ public class Controller : MonoBehaviour
         float elapsedTime = 0;
         float currentSpeed = 0;
 
-        Debug.Log("Stopping");
-        
         while (elapsedTime < 1)
         {
             currentSpeed = Mathf.Lerp(startSpeed.magnitude, 0, elapsedTime / 1);
@@ -236,23 +235,11 @@ public class Controller : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Fading Out");
-
         _ui.RevealWhitePanel(1);
         yield return new WaitForSeconds(1);
 
-        Debug.Log("Moving Level");
-
         _levels[_currentLevel].transform.position = 
             _levelData.Levels[_currentLevel].ReplayPos + transform.position;
-
-        StartCoroutine(MoveRoots());
-
-        Debug.Log("Replay Anim");
-        _anim.SetBool("Play", false);
-        _anim.SetTrigger("Replay");
-
-        yield return new WaitForSeconds(1.5f);
 
         int rootIndex;
         
@@ -260,13 +247,22 @@ public class Controller : MonoBehaviour
         {
             rootIndex = _levelData.Levels[_currentLevel].Roots[i].ID;
 
+            _roots[rootIndex].Reset();
+            
             _roots[rootIndex].transform.localPosition = 
                 _levelData.Levels[_currentLevel].Roots[i].SpawnPos;
         }
 
+        StartCoroutine(MoveRoots());
+
+        _anim.SetBool("Play", false);
+        _anim.SetTrigger("Replay");
+
+        yield return new WaitForSeconds(2f);
+
         _ui.HideWhitePanel(1);
         yield return new WaitForSeconds(1f);
-        Debug.Log("Enable Input");
+
         _input.SwitchCurrentActionMap("Gameplay");
     }
 }
