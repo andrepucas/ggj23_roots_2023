@@ -33,8 +33,10 @@ public class Controller : MonoBehaviour
         Cursor.visible = false;
 
         _input = GetComponent<PlayerInput>();
-        _input.actions["ZigZag"].performed += _ => _roots[0].Interact();
-        _input.actions["Flapper"].performed += _ => _roots[1].Interact();
+        _input.actions["0"].performed += _ => _roots[0].Interact();
+        _input.actions["1"].performed += _ => _roots[1].Interact();
+        _input.actions["2"].performed += _ => _roots[2].Interact();
+
         //_actionZigZag = _input.actions["ZigZag"];
         //_actionFlapper = _input.actions["Flapper"];
 
@@ -67,19 +69,12 @@ public class Controller : MonoBehaviour
     {
         PlayableRoot.OnDead += GameOver;
         PlayableRoot.OnLevelEnd += () => StartCoroutine(NextLevel());
-
-        
-        // AbstractRoot.Dead += GameOver;
-        // AbstractRoot.LevelEnd += () => StartCoroutine(NextLevel());
     }
 
     private void OnDisable()
     {
         PlayableRoot.OnDead -= GameOver;
         PlayableRoot.OnLevelEnd -= () => StopCoroutine(NextLevel());
-        
-        // AbstractRoot.Dead -= GameOver;
-        // AbstractRoot.LevelEnd -= () => StopCoroutine(NextLevel());
     }
 
     private void ChangeGameState(GameStates gameState)
@@ -128,8 +123,8 @@ public class Controller : MonoBehaviour
                 _input.SwitchCurrentActionMap("Gameplay");
                 Debug.Log("Gameplay");
 
-                _input.actions["Flapper"].started += _ => StartCoroutine("FlapperGo");
-                _input.actions["Flapper"].canceled += _ => StopCoroutine("FlapperGo");
+                // _input.actions["Flapper"].started += _ => StartCoroutine("FlapperGo");
+                // _input.actions["Flapper"].canceled += _ => StopCoroutine("FlapperGo");
                 // _input.actions["Cos"].started += _ => _rootCos.NotMove();
                 // _input.actions["Cos"].canceled -= _ => _rootCos.Move();
 

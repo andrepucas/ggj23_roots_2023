@@ -61,8 +61,8 @@ public class PlayableRoot : MonoBehaviour
         {
             _isControllable = false;
             
-            OnDead?.Invoke();
             StartCoroutine(ReSpawning());
+            OnDead?.Invoke();
         }
 
         else if (col.gameObject.tag == "EndLevel")
@@ -107,7 +107,7 @@ public class PlayableRoot : MonoBehaviour
         transform.parent = null;
         _rb.velocity = Vector2.zero;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         transform.parent = parent;
     }
 }
