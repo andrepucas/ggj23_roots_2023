@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    [SerializeField] private UIPanels _ui;
+
     [Header("LEVELS")]
     [SerializeField] private Animator _anim;
     [SerializeField] private LevelDataSO _levelData;
@@ -54,7 +56,7 @@ public class Controller : MonoBehaviour
             _levels.Add(levelRef);
         }
 
-        ChangeGameState(_levelData.StartGameState);
+        StartCoroutine(RevealMenu());
     }
 
     private void OnEnable()
@@ -74,12 +76,7 @@ public class Controller : MonoBehaviour
         switch (gameState)
         {
             case GameStates.MENU:
-                _input.SwitchCurrentActionMap("None");
                 Debug.Log("Menu");
-
-                _currentLevel = 0;
-                _levels[0].SetActive(true);
-                _anim.SetBool("Play", false);
 
                 InputSystem.onAnyButtonPress.
                     CallOnce(ctrl => ChangeGameState(GameStates.LOAD_LEVEL));
@@ -121,6 +118,23 @@ public class Controller : MonoBehaviour
         }
     }
 
+    private IEnumerator RevealMenu()
+    {
+        _ui.RevealBlackPanel();
+        _ui.HideWhitePanel();
+
+        _input.SwitchCurrentActionMap("None");
+
+        _currentLevel = 0;
+        _levels[0].SetActive(true);
+        _anim.SetBool("Play", false);
+
+        _ui.HideBlackPanel(3);
+        yield return new WaitForSeconds(1.5f);
+
+        ChangeGameState(_levelData.StartGameState);
+    }
+
     private IEnumerator WaitForIntro()
     {
         yield return new WaitForSeconds(_levelData.Levels[_currentLevel].IntroTime);
@@ -129,9 +143,9 @@ public class Controller : MonoBehaviour
 
     private void GameOver()
     {
+        Debug.Log("Game Over");
         StopAllCoroutines();
         StartCoroutine(StopCamera());
-        Debug.Log("Game Over");
     }
 
     private IEnumerator NextLevel()
@@ -181,11 +195,15 @@ public class Controller : MonoBehaviour
 
     private IEnumerator StopCamera()
     {
+        _rootsMoving = false;
+        
         Vector3 startSpeed = _levelData.Levels[_currentLevel].Speed;
         float elapsedTime = 0;
         float currentSpeed = 0;
 
-        while (startSpeed.magnitude >= 0)
+        Debug.Log("Stopping");
+        
+        while (elapsedTime < 1)
         {
             currentSpeed = Mathf.Lerp(startSpeed.magnitude, 0, elapsedTime / 1);
             transform.position += startSpeed.normalized * currentSpeed * Time.deltaTime;
@@ -193,5 +211,27 @@ public class Controller : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        Debug.Log("Fading Out");
+
+        _ui.RevealWhitePanel(1);
+        yield return new WaitForSeconds(1);
+
+        Debug.Log("Moving Level");
+
+        _levels[_currentLevel].transform.position = 
+            _levelData.Levels[_currentLevel].ReplayPos + transform.position;
+
+        StartCoroutine(MoveRoots());
+
+        Debug.Log("Replay Anim");
+        _anim.SetBool("Play", false);
+        _anim.SetTrigger("Replay");
+
+        yield return new WaitForSeconds(1f);
+        _ui.HideWhitePanel(1);
+        yield return new WaitForSeconds(1f);
+        Debug.Log("Enable Input");
+        _input.SwitchCurrentActionMap("Gameplay");
     }
 }

@@ -29,12 +29,10 @@ public class RootZigZag : AbstractRoot
     {
         if (col.gameObject.tag == "Obstacle")
         {
-            base.OnDead();
-
             _isControllable = false;
-            _rb.velocity = Vector2.zero;
-            transform.parent = null;
-            Destroy(this);
+            
+            base.OnDead();
+            StartCoroutine(ReSpawning());
         }
 
         else if (col.gameObject.tag == "EndLevel")
@@ -42,6 +40,19 @@ public class RootZigZag : AbstractRoot
             base.OnEndLevel();
             StartCoroutine(ResetPosition());
         }
+    }
+
+    private IEnumerator ReSpawning()
+    {
+        Transform parent = transform.parent;
+        transform.parent = null;
+        _rb.velocity = Vector2.zero;
+
+        yield return new WaitForSeconds(3);
+
+        Debug.Log("Reset");
+        transform.parent = parent;
+        transform.localPosition = new Vector3(0, 0, 0);
     }
 
     private IEnumerator ResetPosition()
