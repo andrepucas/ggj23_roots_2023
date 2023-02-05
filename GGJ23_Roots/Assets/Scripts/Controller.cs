@@ -123,11 +123,6 @@ public class Controller : MonoBehaviour
                 _input.SwitchCurrentActionMap("Gameplay");
                 Debug.Log("Gameplay");
 
-                // _input.actions["Flapper"].started += _ => StartCoroutine("FlapperGo");
-                // _input.actions["Flapper"].canceled += _ => StopCoroutine("FlapperGo");
-                // _input.actions["Cos"].started += _ => _rootCos.NotMove();
-                // _input.actions["Cos"].canceled -= _ => _rootCos.Move();
-
                 if (!_rootsMoving) StartCoroutine(MoveRoots());
 
                 break;
@@ -175,6 +170,8 @@ public class Controller : MonoBehaviour
 
         if (_currentLevel < _levels.Count)
         {
+            Debug.Log("Here");
+            
             foreach (PlayableRoot root in _roots)
                 root.gameObject.SetActive(false);
             
@@ -192,22 +189,6 @@ public class Controller : MonoBehaviour
         while (true)
         {
             transform.position += _levelData.Levels[_currentLevel].Speed * Time.deltaTime;
-            yield return null;
-        }
-    }
-    private IEnumerator FlapperGo()
-    {
-        while (true)
-        {
-            //_rootFlapper.Move();
-            yield return null;
-        }
-    }
-    private IEnumerator CosGo()
-    {
-        while (true)
-        {
-            //_rootCos.Move();
             yield return null;
         }
     }

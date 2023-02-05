@@ -30,3 +30,14 @@ MonoBehaviour:
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 2
     _replayPos: {x: 0, y: 0, z: 10}
+  - _prefab: {fileID: 4295481258394699551, guid: e70b4a5fba47ab74d82bac509e1a44f9, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 4.5, y: 0, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: 0, z: 0}
+    - _id: 2
+      _spawn: {x: -4.5, y: 0, z: 0}
+    _speed: {x: 0, y: -2.5, z: 0}
+    _introTime: 2
+    _replayPos: {x: 0, y: 0, z: 10}
