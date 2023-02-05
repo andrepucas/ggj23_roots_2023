@@ -17,21 +17,21 @@ public class NutrientZone : MonoBehaviour
     void Start()
     {
         particles = GetComponentInChildren<ParticleSystem>();
-
+        _particlesModule = particles.main;
         sR = GetComponent<SpriteRenderer>();
         switch(tag)
         {
             case Tag.ZigZag:
-                
                 currentColor = color1;
+                currentColor2 = color4;
                 break;
             case Tag.Flapper:
-                sR.color = color2;
                 currentColor = color2;
+                currentColor2 = color5;
                 break;
             case Tag.InvFlapper:
-                sR.color = color3;
                 currentColor = color3;
+                currentColor2 = color6;
                 break;
         }
         sR.color = currentColor;
