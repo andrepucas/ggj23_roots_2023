@@ -15,10 +15,16 @@ MonoBehaviour:
   _startGameState: 0
   _levels:
   - _prefab: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 0, z: 0}
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 12
     _replayPos: {x: -33, y: 20, z: 10}
   - _prefab: {fileID: 6821959689939678233, guid: d1d5cd9881737f5489c94575bb66bf66, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 2, z: 0}
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 2
     _replayPos: {x: 0, y: 0, z: 10}
