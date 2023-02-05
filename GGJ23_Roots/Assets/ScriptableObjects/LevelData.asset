@@ -30,15 +30,46 @@ MonoBehaviour:
     _replayPos: {x: 0, y: 0, z: 10}
   - _prefab: {fileID: 6821959689939678233, guid: bf84d2918c6e6a644bcf1063f45e0ed5, type: 3}
     _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 2, z: 0}
     - _id: 1
-      _spawn: {x: 0, y: 0, z: 0}
+      _spawn: {x: 0, y: -2, z: 0}
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 2
     _replayPos: {x: 0, y: 0, z: 10}
   - _prefab: {fileID: 6821959689939678233, guid: fba0528d3c46f104faff10eda565921b, type: 3}
     _roots:
     - _id: 0
-      _spawn: {x: 0, y: 0, z: 0}
+      _spawn: {x: 0, y: 2, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: -2, z: 0}
+    _speed: {x: 2.5, y: 0, z: 0}
+    _introTime: 2
+    _replayPos: {x: 0, y: 0, z: 10}
+  - _prefab: {fileID: 6821959689939678233, guid: 623da567104c971439604e16bfeb8dd6, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 2, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: -2, z: 0}
+    _speed: {x: 2.5, y: 0, z: 0}
+    _introTime: 2
+    _replayPos: {x: 0, y: 0, z: 10}
+  - _prefab: {fileID: 6821959689939678233, guid: c9bd8cb3cba0af747baa68c232c6a06a, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 2, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: -2, z: 0}
+    _speed: {x: 2.5, y: 0, z: 0}
+    _introTime: 2
+    _replayPos: {x: 0, y: 0, z: 10}
+  - _prefab: {fileID: 6821959689939678233, guid: a0a354e929416e944941fd50b58596e5, type: 3}
+    _roots:
+    - _id: 0
+      _spawn: {x: 0, y: 2, z: 0}
+    - _id: 1
+      _spawn: {x: 0, y: -2, z: 0}
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 2
     _replayPos: {x: 0, y: 0, z: 10}
