@@ -12,24 +12,26 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _levelsFolder;
     
     [Header("ROOTS")]
-    [SerializeField] private Transform _rootsParent;
     [SerializeField] private RootZigZag _rootZigZag;
     [SerializeField] private RootFlapper _rootFlapper;
     [SerializeField] private RootCos _rootCos;
     [SerializeField] private float _rootsStartPosition;
     [SerializeField] private float _rootsPosition;
 
+
     private PlayerInput _input;
     private InputAction _actionFlapper;
 
     private List<GameObject> _levels;
     private int _currentLevel;
+    private bool _rootsMoving;
 
     private void Awake()
     {
         Cursor.visible = false;
 
         _input = GetComponent<PlayerInput>();
+        _input.actions["ZigZag"].performed += _ => _rootZigZag.Move();
         //_actionZigZag = _input.actions["ZigZag"];
         //_actionFlapper = _input.actions["Flapper"];
 
@@ -58,20 +60,14 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         AbstractRoot.Dead += GameOver;
+        AbstractRoot.LevelEnd += () => StartCoroutine(NextLevel());
     }
 
     private void OnDisable()
     {
         AbstractRoot.Dead -= GameOver;
+        AbstractRoot.LevelEnd -= () => StopCoroutine(NextLevel());
     }
-
-    // private void Start()
-    // {
-    //     //if (!_rootFlapper) FindObjectOfType<RootFlapper>();
-    //     _rootZigZag.enabled = true;
-    //     //_rootFlapper.enabled = true;
-    //     StartCoroutine(MoveRoots());
-    // }
 
     private void ChangeGameState(GameStates gameState)
     {
@@ -94,7 +90,11 @@ public class Controller : MonoBehaviour
                 _input.SwitchCurrentActionMap("None");
                 Debug.Log("Load level");
 
-                _levelData.Levels[_currentLevel].Prefab.SetActive(true);
+                Vector3 position = transform.position;
+                position.z = 0;
+
+                _levels[_currentLevel].transform.position = position;
+                _levels[_currentLevel].SetActive(true);
 
                 _anim.SetInteger("Level", _currentLevel);
                 _anim.SetBool("Play", true);
@@ -114,6 +114,9 @@ public class Controller : MonoBehaviour
                 _input.actions["Cos"].canceled -= _ => _rootCos.Move();
                 StartCoroutine(MoveRoots());
 
+                if (!_rootsMoving) StartCoroutine(MoveRoots());
+
+
                 break;
         }
     }
@@ -127,12 +130,32 @@ public class Controller : MonoBehaviour
     private void GameOver()
     {
         StopAllCoroutines();
-        //StartCoroutine(StopCamera());
+        StartCoroutine(StopCamera());
         Debug.Log("Game Over");
+    }
+
+    private IEnumerator NextLevel()
+    {
+        _anim.SetBool("Play", false);
+        _anim.SetTrigger("End");
+
+        yield return new WaitForSeconds(2);
+
+        _currentLevel++;
+
+        if (_currentLevel < _levels.Count)
+        {
+            ChangeGameState(GameStates.LOAD_LEVEL);
+            _levels[_currentLevel-1].SetActive(false);
+        }
+
+        else Debug.Log("No more levels.");
     }
 
     private IEnumerator MoveRoots()
     {
+        _rootsMoving = true;
+        
         while (true)
         {
             transform.position += _levelData.Levels[_currentLevel].Speed * Time.deltaTime;
@@ -156,19 +179,19 @@ public class Controller : MonoBehaviour
         }
     }
 
-    // private IEnumerator StopCamera()
-    // {
-    //     Vector3 startSpeed = _levelData.Levels[_currentLevel].Speed;
-    //     float elapsedTime = 0;
+    private IEnumerator StopCamera()
+    {
+        Vector3 startSpeed = _levelData.Levels[_currentLevel].Speed;
+        float elapsedTime = 0;
+        float currentSpeed = 0;
 
-    //     while (startSpeed.magnitude >= 0)
-    //     {
-    //         _currentSpeed = Mathf.Lerp(startSpeed, 0, elapsedTime / 1);
-    //         transform.position += Vector3.right * _currentSpeed;
-    //         _rootsParent.position += Vector3.right * (_levelSpeed - _currentSpeed);
+        while (startSpeed.magnitude >= 0)
+        {
+            currentSpeed = Mathf.Lerp(startSpeed.magnitude, 0, elapsedTime / 1);
+            transform.position += startSpeed.normalized * currentSpeed * Time.deltaTime;
 
-    //         elapsedTime += Time.deltaTime;
-    //         yield return null;
-    //     }
-    // }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

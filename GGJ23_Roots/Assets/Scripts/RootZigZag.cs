@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class RootZigZag : AbstractRoot
 {
@@ -16,11 +17,11 @@ public class RootZigZag : AbstractRoot
         _direction =-_direction;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!_isControllable) return;
 
-        _velocity.y = _direction * _speed;
+        _velocity.y = _direction * _speed * Time.deltaTime;
         _rb.velocity += _velocity;
     }
 
@@ -29,10 +30,26 @@ public class RootZigZag : AbstractRoot
         if (col.gameObject.tag == "Obstacle")
         {
             base.OnDead();
+
             _isControllable = false;
             _rb.velocity = Vector2.zero;
             transform.parent = null;
             Destroy(this);
         }
+
+        else if (col.gameObject.tag == "EndLevel")
+        {
+            base.OnEndLevel();
+            StartCoroutine(ResetPosition());
+        }
+    }
+
+    private IEnumerator ResetPosition()
+    {
+        yield return new WaitForSeconds(2f);
+        _isControllable = false;
+
+        _rb.velocity = Vector2.zero;
+        transform.localPosition = Vector3.zero;
     }
 }
