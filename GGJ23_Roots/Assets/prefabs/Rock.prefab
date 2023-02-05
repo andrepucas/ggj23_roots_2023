@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6958665586684715873}
   - component: {fileID: 7282395135551201009}
   - component: {fileID: 3586979003557570516}
+  - component: {fileID: 966395912921599477}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Obstacle
@@ -117,3 +118,22 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &966395912921599477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611649359714921378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c9536e5bf27cc4989634f5a5167785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isMoving: 0
+  MoveX: 1
+  MoveY: 0
+  eSpin: 0
+  moving_dist: {x: 0, y: 0}
+  spin_range: 4
+  spin_speed: 0.025
