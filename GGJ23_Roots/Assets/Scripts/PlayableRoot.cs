@@ -21,17 +21,23 @@ public class PlayableRoot : MonoBehaviour
     public Color MainColor {get; set;}
     public Color ParticlesColor {get; set;}
 
+    private Collider2D _collider;
     private bool _isControllable;
     private ParticleSystem.MainModule _particlesModule;
 
-    private void Awake() => _particlesModule = _particles.main;
-
+    private void Awake()
+    {
+        _particlesModule = _particles.main;
+        _collider = GetComponent<Collider2D>();
+        OnDead += ToggleCollision;
+    }
     public void Reset()
     {
         _isControllable = false;
         MoveBehaviour = _moveBehaviour.GetComponent<IMoveBehaviour>();
         MainColor = _mainColor;
         ParticlesColor = _particlesColor;
+        _collider.enabled = true;
 
         _rb.velocity = Vector2.zero;
         UpdateTraits();
@@ -48,6 +54,11 @@ public class PlayableRoot : MonoBehaviour
     {
         _isControllable = true;
         MoveBehaviour.HandleInput();
+    }
+
+    private void ToggleCollision()
+    {
+        _collider.enabled = !_collider.enabled;
     }
     
     private void Update()
