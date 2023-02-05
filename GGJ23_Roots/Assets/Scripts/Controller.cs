@@ -7,6 +7,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     [SerializeField] private UIPanels _ui;
+    [SerializeField] private AudioSource _audio;
 
     [Header("LEVELS")]
     [SerializeField] private Animator _anim;
@@ -27,6 +28,7 @@ public class Controller : MonoBehaviour
     private List<GameObject> _levels;
     private int _currentLevel;
     private bool _rootsMoving;
+    private bool _musicPlaying;
 
     private void Awake()
     {
@@ -93,6 +95,8 @@ public class Controller : MonoBehaviour
                 _input.SwitchCurrentActionMap("None");
                 Debug.Log("Load level");
 
+                if (!_musicPlaying) StartCoroutine(MusicDelay());
+
                 Vector3 position = transform.position;
                 position.z = 0;
 
@@ -127,6 +131,13 @@ public class Controller : MonoBehaviour
 
                 break;
         }
+    }
+
+    private IEnumerator MusicDelay()
+    {
+        _musicPlaying = true;
+        yield return new WaitForSeconds(2.2f);
+        _audio.Play();
     }
 
     private IEnumerator RevealMenu()
@@ -168,7 +179,7 @@ public class Controller : MonoBehaviour
 
         _currentLevel++;
 
-        if (_currentLevel < _levels.Count)
+        if (_currentLevel <= _levels.Count)
         {
             Debug.Log("Here");
             
