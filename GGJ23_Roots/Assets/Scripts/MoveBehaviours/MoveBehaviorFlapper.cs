@@ -16,7 +16,7 @@ public class MoveBehaviorFlapper : MonoBehaviour, IMoveBehaviour
 
     public Vector2 Move()
     {
-        _direction -= 0.01f; 
+        _direction += -1.5f * Time.deltaTime; 
         if (_direction < -0.8f) _direction = -0.8f;
         _velocity.y = _direction * _speed * Time.deltaTime;
         return _velocity;
