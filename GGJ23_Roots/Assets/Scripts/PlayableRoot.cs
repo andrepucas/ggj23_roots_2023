@@ -70,6 +70,19 @@ public class PlayableRoot : MonoBehaviour
             OnLevelEnd?.Invoke();
             _isControllable = false;
         }
+        else if (col.gameObject.tag == "Nutrient")
+        {
+            if (col.gameObject.GetComponent<NutrientZone>().currentColor == _mainColor)
+            {
+                Debug.Log("alive");
+            }
+            else
+            {
+                StartCoroutine(ReSpawning());
+                OnDead?.Invoke();
+            }
+
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)

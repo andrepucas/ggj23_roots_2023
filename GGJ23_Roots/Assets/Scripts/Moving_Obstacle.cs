@@ -14,8 +14,11 @@ public class Moving_Obstacle : MonoBehaviour
     [SerializeField]
     private float spin_speed;
     private float angle;
+
+    private Vector3 currentPos;
     private void Start()
     {
+        currentPos = transform.localPosition;
         moving_force = new Vector2(0,0);
     }
     private void FixedUpdate()
@@ -28,11 +31,11 @@ public class Moving_Obstacle : MonoBehaviour
             if(MoveY)
                 moving_force.y = Mathf.PingPong(Time.time / 0.5f, moving_dist.y) - moving_dist.y/2;
 
-            transform.localPosition = new Vector3(moving_force.x, moving_force.y, 0);
+            transform.localPosition = new Vector3(moving_force.x, moving_force.y, 0) + currentPos;
         }
         if(eSpin)
         {
-            transform.localPosition = new Vector3(Mathf.Cos(angle)* spin_range, Mathf.Sin(angle)* spin_range, 0);
+            transform.localPosition = new Vector3(Mathf.Cos(angle)* spin_range, Mathf.Sin(angle)* spin_range, 0) + currentPos;
         }
     }
 }
