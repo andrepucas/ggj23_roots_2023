@@ -18,3 +18,7 @@ MonoBehaviour:
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 12
     _replayPos: {x: 50, y: -20, z: 0}
+  - _prefab: {fileID: 6821959689939678233, guid: d1d5cd9881737f5489c94575bb66bf66, type: 3}
+    _speed: {x: 2.5, y: 0, z: 0}
+    _introTime: 2
+    _replayPos: {x: 50, y: -20, z: 0}
