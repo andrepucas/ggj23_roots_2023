@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Transform _rootsParent;
     [SerializeField] private RootZigZag _rootZigZag;
     [SerializeField] private RootFlapper _rootFlapper;
+    [SerializeField] private RootCos _rootCos;
     [SerializeField] private float _rootsStartPosition;
     [SerializeField] private float _rootsPosition;
 
@@ -107,6 +108,10 @@ public class Controller : MonoBehaviour
                 Debug.Log("Gameplay");
 
                 _input.actions["ZigZag"].performed += _ => _rootZigZag.Move();
+                _input.actions["Flapper"].started += _ => StartCoroutine("FlapperGo");
+                _input.actions["Flapper"].canceled += _ => StopCoroutine("FlapperGo");
+                _input.actions["Cos"].started += _ => _rootCos.NotMove();
+                _input.actions["Cos"].canceled -= _ => _rootCos.Move();
                 StartCoroutine(MoveRoots());
 
                 break;
@@ -131,6 +136,22 @@ public class Controller : MonoBehaviour
         while (true)
         {
             transform.position += _levelData.Levels[_currentLevel].Speed * Time.deltaTime;
+            yield return null;
+        }
+    }
+    private IEnumerator FlapperGo()
+    {
+        while (true)
+        {
+            _rootFlapper.Move();
+            yield return null;
+        }
+    }
+    private IEnumerator CosGo()
+    {
+        while (true)
+        {
+            _rootCos.Move();
             yield return null;
         }
     }
