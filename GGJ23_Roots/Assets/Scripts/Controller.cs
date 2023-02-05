@@ -16,11 +16,6 @@ public class Controller : MonoBehaviour
     
     [Header("ROOTS")]
     [SerializeField] private List<PlayableRoot> _roots;
-    // [SerializeField] private RootZigZag _rootZigZag;
-    // [SerializeField] private RootFlapper _rootFlapper;
-    // [SerializeField] private RootCos _rootCos;
-    [SerializeField] private float _rootsStartPosition;
-    [SerializeField] private float _rootsPosition;
 
     private PlayerInput _input;
     private InputAction _actionFlapper;
@@ -35,9 +30,8 @@ public class Controller : MonoBehaviour
         Cursor.visible = false;
 
         _input = GetComponent<PlayerInput>();
-        _input.actions["0"].performed += _ => _roots[0].Interact();
-        _input.actions["1"].performed += _ => _roots[1].Interact();
-        _input.actions["2"].performed += _ => _roots[2].Interact();
+        _input.actions["0"].performed += _ => _roots[0]?.Interact();
+        _input.actions["1"].performed += _ => _roots[1]?.Interact();
 
         //_actionZigZag = _input.actions["ZigZag"];
         //_actionFlapper = _input.actions["Flapper"];
@@ -126,6 +120,9 @@ public class Controller : MonoBehaviour
             case GameStates.GAMEPLAY:
                 _input.SwitchCurrentActionMap("Gameplay");
                 Debug.Log("Gameplay");
+
+                foreach (PlayableRoot root in _roots)
+                    root.EnableInputHint();
 
                 if (!_rootsMoving) StartCoroutine(MoveRoots());
 

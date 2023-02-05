@@ -15,6 +15,7 @@ public class PlayableRoot : MonoBehaviour
     [SerializeField] private AudioSource _audio;
     [SerializeField] private AudioClip[] _clips;
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private GameObject _input;
     [SerializeField] private SpriteRenderer _sprite;
     [SerializeField] private TrailRenderer _trail;
     [SerializeField] private ParticleSystem _particles;
@@ -31,7 +32,6 @@ public class PlayableRoot : MonoBehaviour
     {
         _particlesModule = _particles.main;
         _collider = GetComponent<Collider2D>();
-        OnDead += ToggleCollision;
     }
     public void Reset()
     {
@@ -41,6 +41,7 @@ public class PlayableRoot : MonoBehaviour
         ParticlesColor = _particlesColor;
         _collider.enabled = true;
 
+        _input.SetActive(false);
         _rb.velocity = Vector2.zero;
         UpdateTraits();
     }
@@ -51,16 +52,13 @@ public class PlayableRoot : MonoBehaviour
         _trail.startColor = MainColor;
         _particlesModule.startColor = ParticlesColor;
     }
+
+    public void EnableInputHint() => _input.SetActive(true);
     
     public void Interact()
     {
         _isControllable = true;
         MoveBehaviour.HandleInput();
-    }
-
-    private void ToggleCollision()
-    {
-        _collider.enabled = !_collider.enabled;
     }
     
     private void Update()
@@ -75,7 +73,9 @@ public class PlayableRoot : MonoBehaviour
             if (col.gameObject.tag == "Obstacle") _audio.PlayOneShot(_clips[0], 1);
             else _audio.PlayOneShot(_clips[1], 1);
             
+            _collider.enabled = false;
             _isControllable = false;
+            _input.SetActive(false);
             
             StartCoroutine(ReSpawning());
             OnDead?.Invoke();
@@ -85,6 +85,7 @@ public class PlayableRoot : MonoBehaviour
         {
             OnLevelEnd?.Invoke();
             _isControllable = false;
+            _input.SetActive(false);
         }
         else if (col.gameObject.tag == "Nutrient")
         {
