@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7395308342455630208}
   - component: {fileID: -4479578451057281778}
   m_Layer: 0
-  m_Name: CosBehaviour
+  m_Name: InvertFlapperBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6413719748055096011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22589b4427de4d4b9708eee3bb3c035, type: 3}
+  m_Script: {fileID: 11500000, guid: e17ddf59e9ff0b54e85911a1ddff5c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 10

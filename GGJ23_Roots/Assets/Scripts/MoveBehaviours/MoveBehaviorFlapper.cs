@@ -9,7 +9,7 @@ public class MoveBehaviorFlapper : MonoBehaviour, IMoveBehaviour
 
     public void HandleInput()
     {
-        _direction += 2f;
+        _direction += 1f;
 
         if (_direction > 0.8f) _direction = 0.8f;
     }
