@@ -104,15 +104,12 @@ public class Controller : MonoBehaviour
                 _input.SwitchCurrentActionMap("Gameplay");
                 Debug.Log("Gameplay");
 
-                _input.actions["ZigZag"].performed += _ => _rootZigZag.Move();
                 _input.actions["Flapper"].started += _ => StartCoroutine("FlapperGo");
                 _input.actions["Flapper"].canceled += _ => StopCoroutine("FlapperGo");
                 _input.actions["Cos"].started += _ => _rootCos.NotMove();
                 _input.actions["Cos"].canceled -= _ => _rootCos.Move();
-                StartCoroutine(MoveRoots());
 
                 if (!_rootsMoving) StartCoroutine(MoveRoots());
-
 
                 break;
         }
