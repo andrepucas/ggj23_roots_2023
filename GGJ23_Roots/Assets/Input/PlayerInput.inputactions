@@ -6,7 +6,7 @@
             "id": "41cdc1f8-7772-45a5-aabc-64a7b8ae3762",
             "actions": [
                 {
-                    "name": "ZigZag",
+                    "name": "0",
                     "type": "Button",
                     "id": "b21f0f2e-a2c2-435e-bb72-4b36ab61b185",
                     "expectedControlType": "Button",
@@ -15,16 +15,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Flapper",
+                    "name": "1",
                     "type": "Button",
                     "id": "cc93ffb6-6601-4e3d-bcd7-a2a59e2566a5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Cos",
+                    "name": "2",
                     "type": "Button",
                     "id": "bbd4b872-1e40-4050-a86a-09968047d0c9",
                     "expectedControlType": "Button",
@@ -46,11 +46,11 @@
                 {
                     "name": "",
                     "id": "f6b961b5-1721-4e54-b2a1-0e3d1b562159",
-                    "path": "<Keyboard>/g",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Flapper",
+                    "action": "1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -61,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cos",
+                    "action": "2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -83,7 +83,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ZigZag",
+                    "action": "0",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
