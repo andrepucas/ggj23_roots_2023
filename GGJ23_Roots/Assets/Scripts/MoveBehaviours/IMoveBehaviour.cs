@@ -4,4 +4,5 @@ public interface IMoveBehaviour
 {
     void HandleInput();
     Vector2 Move();
+    void Reset();
 }

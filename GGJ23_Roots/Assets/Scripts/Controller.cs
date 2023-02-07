@@ -24,22 +24,20 @@ public class Controller : MonoBehaviour
     private int _currentLevel;
     private bool _rootsMoving;
     private bool _musicPlaying;
+    private bool _gameRunning;
 
     private void Awake()
     {
         Cursor.visible = false;
+        _gameRunning = true;
+        
+        Vector3 resetPos = Vector3.zero;
+        resetPos.z = -10;
+        transform.position = resetPos;
 
         _input = GetComponent<PlayerInput>();
         _input.actions["0"].performed += _ => _roots[0]?.Interact();
         _input.actions["1"].performed += _ => _roots[1]?.Interact();
-
-        //_actionZigZag = _input.actions["ZigZag"];
-        //_actionFlapper = _input.actions["Flapper"];
-
-        //_actionZigZag.performed += _ => _rootZigZag.Move();
-        
-        //_actionFlapper.started += _ => _rootFlapper.Move();
-        //_actionFlapper.canceled -= _ => _rootFlapper.Move();
 
         foreach (Transform child in _levelsFolder)
             Destroy(child.gameObject);
@@ -100,18 +98,19 @@ public class Controller : MonoBehaviour
                 {
                     rootIndex = _levelData.Levels[_currentLevel].Roots[i].ID;
 
+                    _roots[rootIndex].gameObject.SetActive(true);
+
+                    _roots[rootIndex].Reset();
+
                     _roots[rootIndex].transform.localPosition = 
                         _levelData.Levels[_currentLevel].Roots[i].SpawnPos;
-
-                    _roots[rootIndex].gameObject.SetActive(true);
-                    _roots[rootIndex].Reset();
                 }
                 
                 _levels[_currentLevel].transform.position = position;
                 _levels[_currentLevel].SetActive(true);
 
                 _anim.SetInteger("Level", _currentLevel);
-                _anim.SetBool("Play", true);
+                _anim.SetTrigger("Play");
 
                 StartCoroutine(WaitForIntro());
 
@@ -146,7 +145,6 @@ public class Controller : MonoBehaviour
 
         _currentLevel = 0;
         _levels[0].SetActive(true);
-        _anim.SetBool("Play", false);
 
         _ui.HideBlackPanel(3);
         yield return new WaitForSeconds(1.5f);
@@ -162,14 +160,21 @@ public class Controller : MonoBehaviour
 
     private void GameOver()
     {
+        if (!_gameRunning) return;
+
+        _gameRunning = false;
+
         Debug.Log("Game Over");
         StopAllCoroutines();
         StartCoroutine(StopCamera());
+
+        for (int i = 0; i < _levelData.Levels[_currentLevel].Roots.Count; i++)
+            _roots[_levelData.Levels[_currentLevel].Roots[i].ID].Stop();
     }
 
     private IEnumerator NextLevel()
     {
-        _anim.SetBool("Play", false);
+        _input.SwitchCurrentActionMap("None");
         _anim.SetTrigger("End");
 
         yield return new WaitForSeconds(2);
@@ -239,7 +244,6 @@ public class Controller : MonoBehaviour
 
         StartCoroutine(MoveRoots());
 
-        _anim.SetBool("Play", false);
         _anim.SetTrigger("Replay");
 
         yield return new WaitForSeconds(2f);
@@ -248,5 +252,10 @@ public class Controller : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         _input.SwitchCurrentActionMap("Gameplay");
+
+        foreach (PlayableRoot root in _roots)
+            root.EnableInputHint();
+
+        _gameRunning = true;
     }
 }

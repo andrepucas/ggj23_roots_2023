@@ -24,25 +24,31 @@ public class PlayableRoot : MonoBehaviour
     public Color MainColor {get; set;}
     public Color ParticlesColor {get; set;}
 
+    private Transform _parent;
     private Collider2D _collider;
     private bool _isControllable;
     private ParticleSystem.MainModule _particlesModule;
 
     private void Awake()
     {
+        _parent = transform.parent;
         _particlesModule = _particles.main;
         _collider = GetComponent<Collider2D>();
     }
+
     public void Reset()
     {
+        transform.parent = _parent;
         _isControllable = false;
+        _rb.velocity = Vector2.zero;
+
         MoveBehaviour = _moveBehaviour.GetComponent<IMoveBehaviour>();
         MainColor = _mainColor;
         ParticlesColor = _particlesColor;
         _collider.enabled = true;
 
         _input.SetActive(false);
-        _rb.velocity = Vector2.zero;
+        MoveBehaviour.Reset();
         UpdateTraits();
     }
 
@@ -65,7 +71,7 @@ public class PlayableRoot : MonoBehaviour
     {
         if (_isControllable) _rb.velocity += MoveBehaviour.Move();
     }
-    
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Obstacle" || col.gameObject.tag == "Bounds")
@@ -76,8 +82,7 @@ public class PlayableRoot : MonoBehaviour
             _collider.enabled = false;
             _isControllable = false;
             _input.SetActive(false);
-            
-            StartCoroutine(ReSpawning());
+
             OnDead?.Invoke();
         }
 
@@ -87,18 +92,19 @@ public class PlayableRoot : MonoBehaviour
             _isControllable = false;
             _input.SetActive(false);
         }
-        else if (col.gameObject.tag == "Nutrient")
+
+        else if (col.gameObject.tag == "Zone")
         {
-            if (col.gameObject.GetComponent<NutrientZone>().currentColor == _mainColor)
+            if (col.GetComponent<IMoveBehaviour>().GetType().Name != MoveBehaviour.GetType().Name)
             {
-                Debug.Log("alive");
-            }
-            else
-            {
-                StartCoroutine(ReSpawning());
+                _audio.PlayOneShot(_clips[0], 1);
+
+                _collider.enabled = false;
+                _isControllable = false;
+                _input.SetActive(false);
+
                 OnDead?.Invoke();
             }
-
         }
     }
 
@@ -127,19 +133,16 @@ public class PlayableRoot : MonoBehaviour
             MoveBehaviour = auxMove;
             MainColor = auxMainColor;
             ParticlesColor = auxPartColor;
-            
+
             UpdateTraits();
             other.UpdateTraits();
         }
     }
 
-    private IEnumerator ReSpawning()
+    public void Stop()
     {
-        Transform parent = transform.parent;
+        _isControllable = false;
         transform.parent = null;
         _rb.velocity = Vector2.zero;
-
-        yield return new WaitForSeconds(1.2f);
-        transform.parent = parent;
     }
 }

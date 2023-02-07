@@ -21,4 +21,9 @@ public class MoveBehaviorFlapper : MonoBehaviour, IMoveBehaviour
         _velocity.y = _direction * _speed * Time.deltaTime;
         return _velocity;
     }
+
+    public void Reset()
+    {
+        _direction = 0.5f;
+    }
 }
