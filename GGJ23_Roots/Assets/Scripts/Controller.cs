@@ -25,6 +25,7 @@ public class Controller : MonoBehaviour
     private bool _rootsMoving;
     private bool _musicPlaying;
     private bool _gameRunning;
+    private bool _switchingLevel;
 
     private void Awake()
     {
@@ -62,7 +63,7 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         PlayableRoot.OnDead += GameOver;
-        PlayableRoot.OnLevelEnd += () => StartCoroutine(NextLevel());
+        PlayableRoot.OnLevelEnd += () => {if (!_switchingLevel) StartCoroutine(NextLevel());};
     }
 
     private void OnDisable()
@@ -76,7 +77,10 @@ public class Controller : MonoBehaviour
         switch (gameState)
         {
             case GameStates.MENU:
+                _input.SwitchCurrentActionMap("None");
                 Debug.Log("Menu");
+
+                _musicPlaying = false;
 
                 InputSystem.onAnyButtonPress.
                     CallOnce(ctrl => ChangeGameState(GameStates.LOAD_LEVEL));
@@ -174,25 +178,52 @@ public class Controller : MonoBehaviour
 
     private IEnumerator NextLevel()
     {
+        _switchingLevel = true;
+
+        Debug.Log(1);
         _input.SwitchCurrentActionMap("None");
         _anim.SetTrigger("End");
 
         yield return new WaitForSeconds(2);
 
-        _currentLevel++;
+        foreach (PlayableRoot root in _roots)
+            root.gameObject.SetActive(false);
 
-        if (_currentLevel <= _levels.Count)
+        if (_currentLevel < _levels.Count-1)
         {
-            Debug.Log("Here");
-            
-            foreach (PlayableRoot root in _roots)
-                root.gameObject.SetActive(false);
-            
+            _currentLevel++;
             ChangeGameState(GameStates.LOAD_LEVEL);
             _levels[_currentLevel-1].SetActive(false);
         }
 
-        else Debug.Log("No more levels.");
+        else
+        {
+            _ui.RevealBlackPanel(2);
+            _anim.SetTrigger("Last");
+            yield return new WaitForSeconds(2);
+
+            _levels[_currentLevel-1].SetActive(false);
+            _currentLevel = 0;
+
+            LastLevel();
+        }
+
+        _switchingLevel = false;
+    }
+
+    private void LastLevel()
+    {
+        StopAllCoroutines();
+        _rootsMoving = false;
+
+        Vector3 resetPos = Vector3.zero;
+        resetPos.z = -10;
+        transform.position = resetPos;
+
+        for (int i = 0; i < _levelData.Levels[_currentLevel].Roots.Count; i++)
+            _roots[_levelData.Levels[_currentLevel].Roots[i].ID].Stop();
+
+        StartCoroutine(RevealMenu());
     }
 
     private IEnumerator MoveRoots()

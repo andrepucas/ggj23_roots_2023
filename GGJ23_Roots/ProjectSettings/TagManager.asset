@@ -9,7 +9,7 @@ TagManager:
   - Obstacle
   - EndLevel
   - Zone
-  - Nutrient
+  - Water
   layers:
   - Default
   - TransparentFX

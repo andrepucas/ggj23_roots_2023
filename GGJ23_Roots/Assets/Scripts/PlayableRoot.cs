@@ -106,6 +106,11 @@ public class PlayableRoot : MonoBehaviour
                 OnDead?.Invoke();
             }
         }
+
+        else if (col.gameObject.tag == "Water")
+        {
+            _audio.PlayOneShot(_clips[3], 1);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
