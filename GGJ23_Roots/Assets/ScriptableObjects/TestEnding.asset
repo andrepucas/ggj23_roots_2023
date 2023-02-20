@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e708a87f157fbfc49bda94a9144de5de, type: 3}
-  m_Name: TestLevels
+  m_Name: TestEnding
   m_EditorClassIdentifier: 
   _startGameState: 0
   _levels:
@@ -21,7 +21,7 @@ MonoBehaviour:
     _speed: {x: 2.5, y: 0, z: 0}
     _introTime: 12
     _replayPos: {x: -33, y: 20, z: 10}
-  - _prefab: {fileID: 6821959689939678233, guid: c9bd8cb3cba0af747baa68c232c6a06a, type: 3}
+  - _prefab: {fileID: 2603946003072994063, guid: 5ae8325cc75e27748a25d03f9229ee80, type: 3}
     _roots:
     - _id: 0
       _spawn: {x: 0, y: 2, z: 0}
