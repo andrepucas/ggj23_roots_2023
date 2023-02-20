@@ -662,7 +662,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 77, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1321,13 +1321,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 479192024}
     m_Modifications:
+    - target: {fileID: 1330605850, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+      propertyPath: m_Color.b
+      value: 0.25490198
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330605850, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+      propertyPath: m_Color.g
+      value: 0.25490198
+      objectReference: {fileID: 0}
+    - target: {fileID: 1330605850, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
+      propertyPath: m_Color.r
+      value: 0.25490198
+      objectReference: {fileID: 0}
     - target: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
       propertyPath: m_Name
       value: Level_0
       objectReference: {fileID: 0}
     - target: {fileID: 41339854398617031, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2994193717594841439, guid: f55ac7c984696804aadeeccf4cc664bf, type: 3}
       propertyPath: m_RootOrder
