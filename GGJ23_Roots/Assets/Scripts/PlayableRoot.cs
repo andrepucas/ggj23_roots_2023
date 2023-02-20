@@ -50,6 +50,7 @@ public class PlayableRoot : MonoBehaviour
         _input.SetActive(false);
         MoveBehaviour.Reset();
         UpdateTraits();
+        StartCoroutine(ReenableTrail());
     }
 
     public void UpdateTraits()
@@ -149,5 +150,12 @@ public class PlayableRoot : MonoBehaviour
         _isControllable = false;
         transform.parent = null;
         _rb.velocity = Vector2.zero;
+    }
+
+    private IEnumerator ReenableTrail()
+    {
+        _trail.time = 0;
+        yield return new WaitForSeconds(.5f);
+        _trail.time = 10;
     }
 }

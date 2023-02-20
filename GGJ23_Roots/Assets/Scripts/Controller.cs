@@ -223,6 +223,12 @@ public class Controller : MonoBehaviour
         for (int i = 0; i < _levelData.Levels[_currentLevel].Roots.Count; i++)
             _roots[_levelData.Levels[_currentLevel].Roots[i].ID].Stop();
 
+        foreach (Transform level in _levelsFolder)
+        {
+            level.gameObject.SetActive(false);
+            level.localPosition = Vector3.zero;
+        }
+
         StartCoroutine(RevealMenu());
     }
 
